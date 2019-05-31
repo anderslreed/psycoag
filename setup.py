@@ -47,7 +47,7 @@ except ImportError:
 # Take a look at https://www.python.org/dev/peps/pep-0440/
 # for a consistent versioning pattern.
 
-PSYCOPG_VERSION = '2.8.3.dev0'
+PSYCOPG_VERSION = '0.1'
 
 
 # note: if you are changing the list of supported Python version please fix
@@ -573,6 +573,8 @@ for define in parser.get('build_ext', 'define').split(','):
 sources = [os.path.join('psycopg', x) for x in sources]
 depends = [os.path.join('psycopg', x) for x in depends]
 
+include_dirs.append('/usr/include/agensgraph/')
+
 ext.append(Extension("psycopg2._psycopg", sources,
                      define_macros=define_macros,
                      include_dirs=include_dirs,
@@ -595,12 +597,10 @@ except Exception:
 
 setup(name="psycopg2",
       version=PSYCOPG_VERSION,
-      maintainer="Federico Di Gregorio",
-      maintainer_email="fog@initd.org",
+      maintainer="Anders Lehn Reed",
+      maintainer_email="anders.lehn.reed@gmail.com",
       author="Federico Di Gregorio",
       author_email="fog@initd.org",
-      url="http://initd.org/psycopg/",
-      download_url=download_url,
       license="LGPL with exceptions or ZPL",
       platforms=["any"],
       python_requires='>=2.7,!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*',
@@ -613,6 +613,5 @@ setup(name="psycopg2",
       cmdclass={'build_ext': psycopg_build_ext},
       ext_modules=ext,
       project_urls={
-          'Source': 'https://github.com/psycopg/psycopg2',
-          'Documentation': 'http://initd.org/psycopg/docs/',
+          'Source': 'https://github.com/anderslreed/psycoag',
       })

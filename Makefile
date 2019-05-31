@@ -42,7 +42,7 @@ ifdef PG_CONFIG
 endif
 
 VERSION := $(shell grep PSYCOPG_VERSION setup.py | head -1 | sed -e "s/.*'\(.*\)'/\1/")
-SDIST := dist/psycopg2-$(VERSION).tar.gz
+SDIST := dist/psycopg-$(VERSION).tar.gz
 
 .PHONY: env check clean
 
@@ -64,7 +64,7 @@ sdist: $(SDIST)
 env:
 	$(MAKE) -C doc $@
 
-check:
+check: testdb
 	PYTHONPATH=$(BUILD_DIR) $(PYTHON) -c "import tests; tests.unittest.main(defaultTest='tests.test_suite')" --verbose
 
 testdb: cleandb
@@ -104,5 +104,5 @@ cleandb:
 	fi
 
 clean: cleandb
-	rm -rf build
+	rm -rf build dist
 	$(MAKE) -C doc clean
