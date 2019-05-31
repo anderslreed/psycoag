@@ -67,17 +67,14 @@ env:
 check:
 	PYTHONPATH=$(BUILD_DIR) $(PYTHON) -c "import tests; tests.unittest.main(defaultTest='tests.test_suite')" --verbose
 
-testdb:
+testdb: cleandb
 	@echo "* Creating $(TESTDB)"
-	@if psql -l | grep -q " $(TESTDB) "; then \
-	    dropdb $(TESTDB) >/dev/null; \
-	fi
 	createdb $(TESTDB)
 	# Note to packagers: this requires the postgres user running the test
 	# to be a superuser.  You may change this line to use the superuser only
 	# to install the contrib.  Feel free to suggest a better way to set up the
 	# testing environment (as the current is enough for development).
-	psql -f `pg_config --sharedir`/contrib/hstore.sql $(TESTDB)
+	#psql -f `pg_config --sharedir`/contrib/hstore.sql $(TESTDB)
 
 
 $(PLATLIB): $(SOURCE_C)
@@ -101,6 +98,11 @@ doc/html/genindex.html: $(PLATLIB) $(PURELIB) $(SOURCE_DOC)
 doc/docs.zip: doc/html/genindex.html
 	(cd doc/html && zip -r ../docs.zip *)
 
-clean:
+cleandb:
+	@if psql -l | grep -q " $(TESTDB) "; then \
+	    dropdb $(TESTDB) >/dev/null; \
+	fi
+
+clean: cleandb
 	rm -rf build
 	$(MAKE) -C doc clean
