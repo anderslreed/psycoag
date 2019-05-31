@@ -35,6 +35,8 @@ BUILD_OPT := --build-lib=$(BUILD_DIR)
 BUILD_EXT_OPT := --build-lib=$(BUILD_DIR)
 SDIST_OPT := --formats=gztar
 
+TESTDB ?= psycopg2_test
+
 ifdef PG_CONFIG
 	BUILD_EXT_OPT += --pg-config=$(PG_CONFIG)
 endif
